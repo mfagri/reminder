@@ -25,7 +25,7 @@ List<Status> status = [
       color: const Color(0xffBFFFC9),
       value: '1'),
   Status(
-      title: 'Progress',
+      title: 'In Progress',
       icon: IconsConstants.inprogress,
       color: const Color(0xffFFEDAA),
       value: '2')
