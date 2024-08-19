@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/helpers/icon_constants.dart';
 import 'package:myapp/helpers/utils.dart';
 import 'package:myapp/view/friends/friends_item.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class AddFriends extends StatefulWidget {
   const AddFriends({super.key});
@@ -53,8 +54,8 @@ class _AddFriendsState extends State<AddFriends> {
       body: Center(
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.only(
+            Padding(
+              padding: const EdgeInsets.only(
                 top: 20,
                 left: 14,
                 right: 14,
@@ -66,39 +67,54 @@ class _AddFriendsState extends State<AddFriends> {
 
                   fillColor: Colors.white,
                   hintText: 'Search',
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     color: Colors.grey,
                     fontSize: 14,
                     fontFamily: 'Roboto',
                     fontWeight: FontWeight.w500,
                     // Suggested code may be subject to a license. Learn more: ~LicenseLog:663312493.
                   ),
-                  prefixIcon: Icon(
+                  prefixIcon: const Icon(
                     Icons.search,
                     color: Colors.grey,
                   ),
                   // Suggested code may be subject to a license. Learn more: ~LicenseLog:2661310012.
-                  border: OutlineInputBorder(
+                  border: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(10.0),
                     ),
                     borderSide: BorderSide.none,
                   ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 10),
-                  suffixIcon: Row(
-                    children: [
-                      Icon(
-                        Icons.qr_code_scanner,
-                        color: Colors.grey,
-                      ),
-                    ],
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+                  suffixIcon: InkWell(
+                    onTap: () async {
+                      var res = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const SimpleBarcodeScannerPage(),
+                          ));
+                      setState(() {
+                        if (res is String) {
+                          print('result: $res');
+                        }
+                      });
+                    },
+                    child: const Row(
+                      children: [
+                        Icon(
+                          Icons.qr_code_scanner,
+                          color: Colors.grey,
+                        ),
+                      ],
+                    ),
                   ),
-                  suffixIconConstraints: BoxConstraints(
+                  suffixIconConstraints: const BoxConstraints(
                     maxHeight: 30,
                     maxWidth: 40,
                   ),
                 ),
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,
                   fontFamily: 'Roboto',
