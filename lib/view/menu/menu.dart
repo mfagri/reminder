@@ -108,7 +108,6 @@ class _MainPageState extends State<MainPage> {
         activeIndex: _bottomNavIndex,
         gapLocation: GapLocation.center,
         notchSmoothness: NotchSmoothness.defaultEdge,
-
         onTap: (index) {
           setState(() {
             _bottomNavIndex = index;

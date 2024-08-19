@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/view/friends/add_friends.dart';
 import 'package:myapp/view/menu/menu.dart';
 import 'package:myapp/view/splash.dart';
 
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const SplashPage(),
         '/menu': (context) => const MainPage(),
+        '/addfriends': (context) => const AddFriends(),
       },
       initialRoute: '/',
     );
