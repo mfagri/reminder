@@ -25,7 +25,7 @@ class _MainPageState extends State<MainPage> {
   ];
   final List _pages = <Widget>[
     const HomePage(),
-   const Friends(),
+    const Friends(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -44,9 +44,7 @@ class _MainPageState extends State<MainPage> {
             ),
           ),
           onPressed: () {
-            // Navigator.push(context, MaterialPageRoute(builder: (context) {
-            //   return const AlertPage();
-            // }));
+            Navigator.pushNamed(context, '/createtask');
           },
           child: appIcon(IconsConstants.add, false, context, 20, 20,
               color: Colors.white),
