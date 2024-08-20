@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/helpers/icon_constants.dart';
 import 'package:myapp/helpers/utils.dart';
 import 'package:myapp/view/friends/friends_item.dart';
+import 'package:qr_scanner_with_effect/qr_scanner_with_effect.dart';
 // import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 // import 'package:scan/scan.dart';
 
@@ -13,10 +14,13 @@ class AddFriends extends StatefulWidget {
 }
 
 class _AddFriendsState extends State<AddFriends> {
+
   @override
   void initState() {
     super.initState();
   }
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -190,12 +194,12 @@ class _ScanViwePageState extends State<ScanViwePage> {
         ),
         leadingWidth: MediaQuery.of(context).size.width,
       ),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Scan for added friend',
               style: TextStyle(
                 color: Colors.black,
@@ -204,25 +208,43 @@ class _ScanViwePageState extends State<ScanViwePage> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             SizedBox(
               width: 250, // custom wrap size
               height: 250,
-              // child: ScanView(
-              //   controller: controller,
-              //   // custom scan area, if set to 1.0, will scan full area
-              //   scanAreaScale: .7,
-              //   scanLineColor: const Color(0xff1488CC),
-              //   onCapture: (data) {
-              //     print(data);
-              //     setState(() {
-              //       qrcode = data;
-              //     });
-              //     // Navigator.pop(context);
-              //   },
-              // ),
+              child: QrScannerWithEffect(
+  isScanComplete: false,
+  qrKey: GlobalKey(debugLabel: 'QR'),
+  onQrScannerViewCreated: (v){
+     v.scannedDataStream.listen((scanData) async{
+
+     var  result = scanData;
+      v.pauseCamera();
+
+      await Future<void>.delayed(const Duration(milliseconds: 300));
+
+      String? myQrCode = result.code!=null && result.code.toString().isNotEmpty ?result.code.toString():'';
+      if(myQrCode!=null && myQrCode.isNotEmpty){
+        print(myQrCode);
+      }
+
+    });
+  },
+  qrOverlayBorderColor: Colors.redAccent,
+  cutOutSize: (MediaQuery.of(context).size.width < 300 || MediaQuery.of(context).size.height < 400) ? 250.0 : 300.0,
+  // onPermissionSet: (ctrl, p) => onPermissionSet(context, ctrl, p),
+  effectGradient: const LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    stops: [0.0, 1],
+    colors: [
+      Colors.redAccent,
+      Colors.redAccent,
+    ],
+  ),
+),
             ),
           ],
         ),
