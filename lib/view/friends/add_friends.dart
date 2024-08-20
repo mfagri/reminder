@@ -3,7 +3,7 @@ import 'package:myapp/helpers/icon_constants.dart';
 import 'package:myapp/helpers/utils.dart';
 import 'package:myapp/view/friends/friends_item.dart';
 // import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
-import 'package:scan/scan.dart';
+// import 'package:scan/scan.dart';
 
 class AddFriends extends StatefulWidget {
   const AddFriends({super.key});
@@ -149,7 +149,7 @@ class ScanViwePage extends StatefulWidget {
 }
 
 class _ScanViwePageState extends State<ScanViwePage> {
-  ScanController controller = ScanController();
+  // ScanController controller = ScanController();
   String qrcode = 'Unknown';
   @override
   Widget build(BuildContext context) {
@@ -190,12 +190,12 @@ class _ScanViwePageState extends State<ScanViwePage> {
         ),
         leadingWidth: MediaQuery.of(context).size.width,
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
+            Text(
               'Scan for added friend',
               style: TextStyle(
                 color: Colors.black,
@@ -204,25 +204,25 @@ class _ScanViwePageState extends State<ScanViwePage> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: 20,
             ),
             SizedBox(
               width: 250, // custom wrap size
               height: 250,
-              child: ScanView(
-                controller: controller,
-                // custom scan area, if set to 1.0, will scan full area
-                scanAreaScale: .7,
-                scanLineColor: const Color(0xff1488CC),
-                onCapture: (data) {
-                  print(data);
-                  setState(() {
-                    qrcode = data;
-                  });
-                  // Navigator.pop(context);
-                },
-              ),
+              // child: ScanView(
+              //   controller: controller,
+              //   // custom scan area, if set to 1.0, will scan full area
+              //   scanAreaScale: .7,
+              //   scanLineColor: const Color(0xff1488CC),
+              //   onCapture: (data) {
+              //     print(data);
+              //     setState(() {
+              //       qrcode = data;
+              //     });
+              //     // Navigator.pop(context);
+              //   },
+              // ),
             ),
           ],
         ),
