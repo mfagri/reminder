@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/helpers/icon_constants.dart';
 import 'package:myapp/helpers/utils.dart';
 import 'package:myapp/view/friends/friends_item.dart';
-import 'package:qr_scanner_with_effect/qr_scanner_with_effect.dart';
+import 'package:myapp/view/friends/scan_view.dart';
 // import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 // import 'package:scan/scan.dart';
 
@@ -23,41 +22,7 @@ class _AddFriendsState extends State<AddFriends> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF2F2F2),
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        scrolledUnderElevation: 0,
-        leading: Container(
-          height: 100,
-          color: const Color(0xffE3E3E3),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  const Text(
-                    'Add Friends',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w500,
-                      height: 0.06,
-                    ),
-                  ),
-                  const Spacer(),
-                  InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child:
-                          appIcon(IconsConstants.back, false, context, 15, 15))
-                ],
-              ),
-            ),
-          ),
-        ),
-        leadingWidth: MediaQuery.of(context).size.width,
-      ),
+      appBar: myAppbar(context, "Add Friends"),
       body: Center(
         child: Column(
           children: [
@@ -141,124 +106,3 @@ class _AddFriendsState extends State<AddFriends> {
   }
 }
 
-//scan view
-class ScanViwePage extends StatefulWidget {
-  const ScanViwePage({super.key});
-
-  @override
-  State<ScanViwePage> createState() => _ScanViwePageState();
-}
-
-class _ScanViwePageState extends State<ScanViwePage> {
-  // ScanController controller = ScanController();
-  String qrcode = 'Unknown';
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffF2F2F2),
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        scrolledUnderElevation: 0,
-        leading: Container(
-          height: 100,
-          color: const Color(0xffE3E3E3),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  const Text(
-                    'Scan QR Code',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w500,
-                      height: 0.06,
-                    ),
-                  ),
-                  const Spacer(),
-                  InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child:
-                          appIcon(IconsConstants.back, false, context, 15, 15))
-                ],
-              ),
-            ),
-          ),
-        ),
-        leadingWidth: MediaQuery.of(context).size.width,
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(qrcode),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text(
-              'Scan for added friend',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            SizedBox(
-              width: 250, // custom wrap size
-              height: 250,
-              child: QrScannerWithEffect(
-                isScanComplete: false,
-                qrKey: GlobalKey(debugLabel: 'QR'),
-                onQrScannerViewCreated: (v) {
-                  v.scannedDataStream.listen((scanData) async {
-                    var result = scanData;
-                    v.pauseCamera();
-
-                    await Future<void>.delayed(
-                        const Duration(milliseconds: 300));
-
-                    String? myQrCode =
-                        result.code != null && result.code.toString().isNotEmpty
-                            ? result.code.toString()
-                            : '';
-                    if (myQrCode.isNotEmpty) {
-                      setState(() {
-                        qrcode = myQrCode;
-                      });
-                    } else {
-                      qrcode = "empty";
-                    }
-                  });
-                },
-                qrOverlayBorderColor: Colors.redAccent,
-                cutOutSize: (MediaQuery.of(context).size.width < 300 ||
-                        MediaQuery.of(context).size.height < 400)
-                    ? 250.0
-                    : 300.0,
-                // onPermissionSet: (ctrl, p) => onPermissionSet(context, ctrl, p),
-                effectGradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.0, 1],
-                  colors: [
-                    Colors.redAccent,
-                    Colors.redAccent,
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

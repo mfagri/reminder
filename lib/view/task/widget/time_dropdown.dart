@@ -53,6 +53,7 @@ class _TimeWidgetState extends State<TimeWidget> {
         ),
         width: MediaQuery.of(context).size.width -
             28, //28 because of padding 14 in left and right
+        menuHeight: MediaQuery.of(context).size.height * 0.6,
         hintText: time,
         initialSelection: time,
         textStyle: const TextStyle(

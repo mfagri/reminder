@@ -48,6 +48,7 @@ class _FriendsDropdownState extends State<FriendsDropdown> {
         ),
         width: MediaQuery.of(context).size.width -
             28, //28 because of padding 14 in left and right
+        menuHeight: MediaQuery.of(context).size.height * 0.6,
         hintText: time,
         initialSelection: time,
         textStyle: const TextStyle(
@@ -75,12 +76,12 @@ class _FriendsDropdownState extends State<FriendsDropdown> {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                side: WidgetStateProperty.all(
-                  const BorderSide(
-                    color: Color(0xffC4C4C4),
-                    width: 1,
-                  ),
-                ),
+                // side: WidgetStateProperty.all(
+                //   const BorderSide(
+                //     color: Color(0xffC4C4C4),
+                //     width: 1,
+                //   ),
+                // ),
               ),
               labelWidget: Container(
                 margin: const EdgeInsets.only(bottom: 10),

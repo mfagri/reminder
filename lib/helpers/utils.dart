@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:myapp/helpers/icon_constants.dart';
 
 Widget appIcon(
     String path, bool isDark, BuildContext context, double height, double width,
@@ -25,3 +26,42 @@ Widget appIcon(
             : null,
   );
 }
+
+
+AppBar myAppbar(BuildContext context,String title) {
+    return AppBar(
+      forceMaterialTransparency: true,
+      scrolledUnderElevation: 0,
+      leading: Container(
+        height: 100,
+        color: const Color(0xffE3E3E3),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w500,
+                    height: 0.06,
+                  ),
+                ),
+                const Spacer(),
+                InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child:
+                        appIcon(IconsConstants.back, false, context, 15, 15))
+              ],
+            ),
+          ),
+        ),
+      ),
+      leadingWidth: MediaQuery.of(context).size.width,
+    );
+  }
