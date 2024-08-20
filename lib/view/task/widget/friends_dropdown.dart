@@ -1,0 +1,146 @@
+import 'package:flutter/material.dart';
+import 'package:myapp/helpers/icon_constants.dart';
+import 'package:myapp/helpers/utils.dart';
+
+class FriendsDropdown extends StatefulWidget {
+  const FriendsDropdown({
+    super.key,
+  });
+
+  @override
+  State<FriendsDropdown> createState() => _FriendsDropdownState();
+}
+
+class _FriendsDropdownState extends State<FriendsDropdown> {
+  String time = 'select friend';
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      child: DropdownMenu(
+        enableSearch: true,
+        menuStyle: const MenuStyle(
+          backgroundColor: WidgetStatePropertyAll(
+            Color(0xffFFFFFF),
+          ),
+        ),
+        trailingIcon: SizedBox(
+          width: 70,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              appIcon(IconsConstants.down, false, context, 8, 6),
+            ],
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          constraints: const BoxConstraints(
+            minHeight: 40,
+            maxHeight: 40,
+          ),
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color(0xffC4C4C4),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+        width: MediaQuery.of(context).size.width -
+            28, //28 because of padding 14 in left and right
+        hintText: time,
+        initialSelection: time,
+        textStyle: const TextStyle(
+          color: Colors.black,
+          fontSize: 14,
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.w400,
+        ),
+        onSelected: (String? item) {
+          setState(() {
+            time = item!;
+          });
+        },
+        dropdownMenuEntries: [
+          for (int i = 0; i <= 60; i += 1)
+            DropdownMenuEntry(
+              value: 'mfagri',
+              label: '@mfagri',
+              style: ButtonStyle(
+                textStyle: WidgetStateProperty.all(
+                  const TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+              labelWidget: Container(
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:2488461075.
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:2860496347.
+                margin: const EdgeInsets.only(bottom: 10),
+                height: 60,
+                width: MediaQuery.of(context).size.width,
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:1264046045.
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(
+                    color: const Color(0xffE0E0E0),
+                    width: 1,
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: const Color(0xffD4EFFF),
+                          borderRadius: BorderRadius.circular(20),
+                          image: const DecorationImage(
+                            image: NetworkImage(
+                                'https://i.pinimg.com/564x/6d/3b/16/6d3b167925f9a8edbf9d04a019b7f3aa.jpg'),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 17,
+                      ),
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Marouane fagri',
+                            style: TextStyle(
+                              color: Color(0xFF313131),
+                              fontSize: 13,
+                              fontFamily: 'Nunito',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            '@mfagri',
+                            style: TextStyle(
+                              color: Color(0xFF717171),
+                              fontSize: 12,
+                              fontFamily: 'Nunito',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}

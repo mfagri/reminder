@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/helpers/icon_constants.dart';
 import 'package:myapp/helpers/utils.dart';
+import 'package:myapp/view/task/widget/friends_dropdown.dart';
 import 'package:myapp/view/task/widget/time_dropdown.dart';
 
 class CreateTask extends StatefulWidget {
@@ -29,7 +30,7 @@ class _CreateTaskState extends State<CreateTask> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF2F2F2),
+      backgroundColor: const Color(0xffFFFFFF),
       appBar: AppBar(
         forceMaterialTransparency: true,
         scrolledUnderElevation: 0,
@@ -167,30 +168,12 @@ class _CreateTaskState extends State<CreateTask> {
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:1419541801.
             if (!me)
               //drop down
-              Padding(
-                padding: const EdgeInsets.symmetric(
+              const Padding(
+                  padding: EdgeInsets.symmetric(
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:275912587.
-                  horizontal: 14,
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 40,
-                      // Suggested code may be subject to a license. Learn more: ~LicenseLog:633181768.
-                      width: MediaQuery.of(context).size.width,
-                      // Suggested code may be subject to a license. Learn more: ~LicenseLog:3297478062.
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(2),
-                        border: Border.all(
-                          color: const Color(0xffE0E0E0),
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                    horizontal: 14,
+                  ),
+                  child: FriendsDropdown()),
             const SizedBox(
               height: 20,
             ),
@@ -219,6 +202,7 @@ class _CreateTaskState extends State<CreateTask> {
                   SizedBox(
                     height: 40,
                     child: TextField(
+                      onTap: () {},
                       readOnly: true, //can be changed to false
                       decoration: InputDecoration(
                         hintText:

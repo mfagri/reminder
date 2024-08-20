@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/helpers/icon_constants.dart';
 import 'package:myapp/helpers/utils.dart';
 import 'package:myapp/view/friends/friends_item.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+// import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class AddFriends extends StatefulWidget {
   const AddFriends({super.key});
@@ -88,17 +88,17 @@ class _AddFriendsState extends State<AddFriends> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                   suffixIcon: InkWell(
                     onTap: () async {
-                      var res = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                const SimpleBarcodeScannerPage(),
-                          ));
-                      setState(() {
-                        if (res is String) {
-                          print('result: $res');
-                        }
-                      });
+                      // var res = await Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) =>
+                      //           const SimpleBarcodeScannerPage(),
+                      //     ));
+                      // setState(() {
+                      //   if (res is String) {
+                      //     //print(res);
+                      //   }
+                      // });
                     },
                     child: const Row(
                       children: [
