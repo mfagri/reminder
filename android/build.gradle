@@ -36,3 +36,10 @@ configurations.all {
      force 'androidx.core:core-ktx:1.6.0'
    }
 }
+
+
+ext {
+    compileSdkVersion   = 34
+    targetSdkVersion    = 34
+    appCompatVersion    = "1.7.0"
+}
