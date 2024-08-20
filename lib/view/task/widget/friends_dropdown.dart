@@ -75,19 +75,22 @@ class _FriendsDropdownState extends State<FriendsDropdown> {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
+                side: WidgetStateProperty.all(
+                  const BorderSide(
+                    color: Color(0xffC4C4C4),
+                    width: 1,
+                  ),
+                ),
               ),
               labelWidget: Container(
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:2488461075.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:2860496347.
                 margin: const EdgeInsets.only(bottom: 10),
                 height: 60,
                 width: MediaQuery.of(context).size.width,
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:1264046045.
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(
-                    color: const Color(0xffE0E0E0),
+                    color: const Color(0xffC4C4C4),
                     width: 1,
                   ),
                 ),

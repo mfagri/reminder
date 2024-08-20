@@ -44,8 +44,15 @@ class _TimeWidgetState extends State<TimeWidget> {
             ),
             borderRadius: BorderRadius.circular(2),
           ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(2),
+            borderSide: const BorderSide(
+              color: Color(0xFFC4C4C4),
+            ),
+          ),
         ),
-        width: MediaQuery.of(context).size.width - 28, //28 because of padding 14 in left and right
+        width: MediaQuery.of(context).size.width -
+            28, //28 because of padding 14 in left and right
         hintText: time,
         initialSelection: time,
         textStyle: const TextStyle(
