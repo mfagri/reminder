@@ -9,6 +9,13 @@ buildscript {
         // Note: If you use Kotlin, also include the Kotlin Gradle plugin here
         // classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0"  // Update to the latest stable version
     }
+    ext {
+            buildToolsVersion = "34.0.0" 
+            minSdkVersion = 21
+            compileSdkVersion = 34
+            targetSdkVersion = 34
+            androidXCore = "1.6.0"
+       }
 }
 
 allprojects {
