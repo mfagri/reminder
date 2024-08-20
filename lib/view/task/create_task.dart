@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/helpers/icon_constants.dart';
 import 'package:myapp/helpers/utils.dart';
@@ -15,7 +15,6 @@ class CreateTask extends StatefulWidget {
 class _CreateTaskState extends State<CreateTask> {
   bool me = true;
   DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
 
   //munites List
   List<String> munites = [
@@ -204,11 +203,54 @@ class _CreateTaskState extends State<CreateTask> {
                   SizedBox(
                     height: 40,
                     child: TextField(
-                      onTap: () {},
+                      onTap: () async {
+                        DateTime? dateTime = await showOmniDateTimePicker(
+                          theme: ThemeData(
+                            primaryColor: const Color(0xff1488CC),
+                            colorScheme: const ColorScheme.light(
+                              primary: Color(0xff1488CC),
+                            ),
+                          ),
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1600)
+                              .subtract(const Duration(days: 3652)),
+                          lastDate: DateTime.now().add(
+                            const Duration(days: 3652),
+                          ),
+                          is24HourMode: false,
+                          isShowSeconds: false,
+                          minutesInterval: 1,
+                          secondsInterval: 1,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16)),
+                          constraints: const BoxConstraints(
+                            maxWidth: 350,
+                            maxHeight: 650,
+                          ),
+                          transitionBuilder: (context, anim1, anim2, child) {
+                            return FadeTransition(
+                              opacity: anim1.drive(
+                                Tween(
+                                  begin: 0,
+                                  end: 1,
+                                ),
+                              ),
+                              child: child,
+                            );
+                          },
+                          transitionDuration: const Duration(milliseconds: 200),
+                          barrierDismissible: true,
+                        );
+
+                        setState(() {
+                          selectedDate = dateTime!;
+                        });
+                      },
                       readOnly: true, //can be changed to false
                       decoration: InputDecoration(
                         hintText:
-                            '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
+                            '${selectedDate.day}/${selectedDate.month}/${selectedDate.year} ${selectedDate.hour}:${selectedDate.minute}',
                         hintStyle: const TextStyle(
                           color: Colors.black,
                           fontSize: 14,
