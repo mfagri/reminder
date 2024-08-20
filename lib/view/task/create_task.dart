@@ -244,7 +244,9 @@ class _CreateTaskState extends State<CreateTask> {
                         );
 
                         setState(() {
-                          selectedDate = dateTime!;
+                          if (dateTime != null) {
+                            selectedDate = dateTime;
+                          }
                         });
                       },
                       readOnly: true, //can be changed to false

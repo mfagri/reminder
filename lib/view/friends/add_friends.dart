@@ -3,6 +3,7 @@ import 'package:myapp/helpers/icon_constants.dart';
 import 'package:myapp/helpers/utils.dart';
 import 'package:myapp/view/friends/friends_item.dart';
 // import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+import 'package:flutter_qr_scan/flutter_qr_scan.dart';
 
 class AddFriends extends StatefulWidget {
   const AddFriends({super.key});
@@ -12,6 +13,13 @@ class AddFriends extends StatefulWidget {
 }
 
 class _AddFriendsState extends State<AddFriends> {
+  QrReaderViewController controller = QrReaderViewController(1);
+  late String data;
+  late String rawData;
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,6 +96,8 @@ class _AddFriendsState extends State<AddFriends> {
                   contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                   suffixIcon: InkWell(
                     onTap: () async {
+                      await controller.startCamera(onScan);
+                      // Navigator.pushNamed(context, '/qr');
                       // var res = await Navigator.push(
                       //     context,
                       //     MaterialPageRoute(
@@ -136,5 +146,14 @@ class _AddFriendsState extends State<AddFriends> {
         ),
       ),
     );
+  }
+
+  void onScan(String? v, List<Offset> offsets, String? raw) {
+    print([v, offsets, raw]);
+    setState(() {
+      data = v!;
+      rawData = raw!;
+    });
+    controller.stopCamera();
   }
 }
