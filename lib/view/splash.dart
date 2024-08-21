@@ -92,28 +92,64 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF2F2F2),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 100,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            height: 150,
+            width: 150,
+            decoration: BoxDecoration(
+              image: const DecorationImage(
+                image: NetworkImage(
+                    'https://i.pinimg.com/564x/c6/67/ea/c667ea8efad5a59c560b40e76d590104.jpg'),
+                fit: BoxFit.fill,
+              ),
+              borderRadius: BorderRadius.circular(20),
             ),
-            Padding(
-              padding: const EdgeInsets.all(14),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          //text
+          const Text(
+            'Welcome to Remindy',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xff1488CC),
+              fontSize: 30,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: SupaSocialsAuth(
                 colored: true,
                 nativeGoogleAuthConfig: NativeGoogleAuthConfig(
                   webClientId: webid,
                 ),
+                localization: const SupaSocialsAuthLocalization(
+                  oAuthButtonLabels: {
+                    OAuthProvider.google: 'Sign in with Google',
+                  },
+                ),
+                socialButtonVariant: SocialButtonVariant.iconAndText,
                 enableNativeAppleAuth: false,
-                socialProviders: OAuthProvider.values,
+                socialProviders: const [
+                  OAuthProvider.google,
+                  OAuthProvider.apple,
+                ],
                 onSuccess: (session) {
                   Navigator.of(context).pushReplacementNamed('/menu');
                 },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

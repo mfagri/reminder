@@ -59,83 +59,124 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 20,
           ),
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:3671788434.
-          Expanded(
-            child: ListView.builder(
-                itemCount: 20,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                    ),
-                    child: Container(
-                        padding: const EdgeInsets.all(10),
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        margin: const EdgeInsets.only(bottom: 10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: const Color(0xffE0E0E0),
-                            width: 1,
+          FutureBuilder(
+            future: Future.delayed(const Duration(seconds: 1), () async {
+            }),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator(
+                  color: Color(0xff1488CC),
+                );
+              }
+              if (snapshot.hasError) {
+                return Text(
+                  'Error: ${snapshot.error}',
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w500,
+                  ),
+                );
+              }
+              // if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              //   return const Expanded(
+              //     child: Column(
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         Text(
+              //           'No tasks found.',
+              //           style: TextStyle(
+              //             color: Colors.black,
+              //             fontSize: 16,
+              //             fontFamily: 'Roboto',
+              //             fontWeight: FontWeight.w500,
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   );
+              // }
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: 20,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                      ),
+                      child: Container(
+                          padding: const EdgeInsets.all(10),
+                          height: 60,
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(
+                              color: const Color(0xffE0E0E0),
+                              width: 1,
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffD4EFFF),
-                                borderRadius: BorderRadius.circular(20),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffD4EFFF),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Center(
+                                  child: appIcon(IconsConstants.task, false,
+                                      context, 20, 20),
+                                ),
                               ),
-                              child: Center(
-                                child: appIcon(IconsConstants.task, false,
-                                    context, 20, 20),
+                              const SizedBox(
+                                width: 17,
                               ),
-                            ),
-                            const SizedBox(
-                              width: 17,
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              height: 40,
-                              child: const Column(
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'tfi 3la tajin',
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      color: Color(0xFF313131),
-                                      fontSize: 13,
-                                      fontFamily: 'Nunito',
-                                      fontWeight: FontWeight.w600,
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                height: 40,
+                                child: const Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'tfi 3la tajin',
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        color: Color(0xFF313131),
+                                        fontSize: 13,
+                                        fontFamily: 'Nunito',
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    'By mfagri',
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      color: Color(0xFF717171),
-                                      fontSize: 12,
-                                      fontFamily: 'Nunito',
-                                      fontWeight: FontWeight.w400,
+                                    Text(
+                                      'By mfagri',
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        color: Color(0xFF717171),
+                                        fontSize: 12,
+                                        fontFamily: 'Nunito',
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        )),
-                  );
-                }),
+                                  ],
+                                ),
+                              )
+                            ],
+                          )),
+                    );
+                  },
+                ),
+              );
+            },
           ),
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:3671788434.
         ],
       )),
     );

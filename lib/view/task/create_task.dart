@@ -18,8 +18,8 @@ class _CreateTaskState extends State<CreateTask> {
   DateTime selectedDate = DateTime.now();
   TextEditingController taskNameController = TextEditingController();
   TextEditingController taskDescriptionController = TextEditingController();
-  int selectedId = 0;//int by user id
-  int selectedTime = 60;
+  int selectedId = 0; //int by user id
+  int selectedTime = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class _CreateTaskState extends State<CreateTask> {
               if (!me) const SizedBox(height: 20),
               if (!me) FriendsDropdown(iduser: selectedId),
               const SizedBox(height: 20),
-              _buildDatePicker(context,selectedDate),
+              _buildDatePicker(context, selectedDate),
               const SizedBox(height: 20),
               const _TaskTimeReminder(),
               const SizedBox(height: 20),
@@ -94,7 +94,7 @@ class _CreateTaskState extends State<CreateTask> {
   }
 
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:3290925913.
-  Widget _buildDatePicker(BuildContext context,DateTime selectedDate) {
+  Widget _buildDatePicker(BuildContext context, DateTime selectedDate) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -155,24 +155,34 @@ class _CreateTaskState extends State<CreateTask> {
     );
   }
 
-
-
   Widget _buildActionButton(String label, int color) {
-    return Container(
-      height: 44,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Color(color),
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w500,
+    return InkWell(
+      onTap: () async {
+        // await SupaService.insertTask(
+        //     taskNameController.text,
+        //     taskDescriptionController.text,
+        //     selectedDate,
+        //     DateTime.now().add(Duration(minutes: selectedTime)));
+        // if (mounted) {
+        //   Navigator.pop(context);
+        // }
+      },
+      child: Container(
+        height: 44,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Color(color),
+          borderRadius: BorderRadius.circular(5),
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),
