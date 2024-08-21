@@ -70,3 +70,21 @@ class InputWidget extends StatelessWidget {
     );
   }
 }
+
+
+  Widget buildInputFields(
+      TextEditingController name, TextEditingController desc) {
+    return Column(
+      children: [
+        InputWidget(
+            name: 'Task Name',
+            controller: TextEditingController(),
+            isDescription: false),
+        const SizedBox(height: 20),
+        InputWidget(
+            name: 'Task Description',
+            controller: TextEditingController(),
+            isDescription: true),
+      ],
+    );
+  }

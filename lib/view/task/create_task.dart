@@ -16,6 +16,10 @@ class CreateTask extends StatefulWidget {
 class _CreateTaskState extends State<CreateTask> {
   bool me = true;
   DateTime selectedDate = DateTime.now();
+  TextEditingController taskNameController = TextEditingController();
+  TextEditingController taskDescriptionController = TextEditingController();
+  int selectedId = 0;//int by user id
+  int selectedTime = 60;
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +34,13 @@ class _CreateTaskState extends State<CreateTask> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
-              _buildInputFields(),
+              buildInputFields(taskNameController, taskDescriptionController),
               const SizedBox(height: 20),
               _buildForSection(),
               if (!me) const SizedBox(height: 20),
-              if (!me) const FriendsDropdown(),
+              if (!me) FriendsDropdown(iduser: selectedId),
               const SizedBox(height: 20),
-              _buildDatePicker(context),
+              _buildDatePicker(context,selectedDate),
               const SizedBox(height: 20),
               const _TaskTimeReminder(),
               const SizedBox(height: 20),
@@ -89,7 +93,8 @@ class _CreateTaskState extends State<CreateTask> {
     );
   }
 
-  Widget _buildDatePicker(BuildContext context) {
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:3290925913.
+  Widget _buildDatePicker(BuildContext context,DateTime selectedDate) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -150,21 +155,7 @@ class _CreateTaskState extends State<CreateTask> {
     );
   }
 
-  Widget _buildInputFields() {
-    return Column(
-      children: [
-        InputWidget(
-            name: 'Task Name',
-            controller: TextEditingController(),
-            isDescription: false),
-        const SizedBox(height: 20),
-        InputWidget(
-            name: 'Task Description',
-            controller: TextEditingController(),
-            isDescription: true),
-      ],
-    );
-  }
+
 
   Widget _buildActionButton(String label, int color) {
     return Container(

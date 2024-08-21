@@ -1,10 +1,14 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:myapp/helpers/icon_constants.dart';
 import 'package:myapp/helpers/utils.dart';
 
 class FriendsDropdown extends StatefulWidget {
-  const FriendsDropdown({
+  int iduser = 0;
+  FriendsDropdown({
     super.key,
+    required this.iduser,
   });
 
   @override
@@ -12,7 +16,7 @@ class FriendsDropdown extends StatefulWidget {
 }
 
 class _FriendsDropdownState extends State<FriendsDropdown> {
-  String time = 'select friend';
+  String friend = 'select friend';
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -49,8 +53,8 @@ class _FriendsDropdownState extends State<FriendsDropdown> {
         width: MediaQuery.of(context).size.width -
             28, //28 because of padding 14 in left and right
         menuHeight: MediaQuery.of(context).size.height * 0.6,
-        hintText: time,
-        initialSelection: time,
+        hintText: friend,
+        initialSelection: friend,
         textStyle: const TextStyle(
           color: Colors.black,
           fontSize: 14,
@@ -59,7 +63,8 @@ class _FriendsDropdownState extends State<FriendsDropdown> {
         ),
         onSelected: (String? item) {
           setState(() {
-            time = item!;
+            friend = item!;
+            widget.iduser = 13337;
           });
         },
         dropdownMenuEntries: [
@@ -76,12 +81,6 @@ class _FriendsDropdownState extends State<FriendsDropdown> {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                // side: WidgetStateProperty.all(
-                //   const BorderSide(
-                //     color: Color(0xffC4C4C4),
-                //     width: 1,
-                //   ),
-                // ),
               ),
               labelWidget: Container(
                 margin: const EdgeInsets.only(bottom: 10),
