@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/services/supabase.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -8,12 +9,16 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-
-@override
+  @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 1), () {
-      Navigator.pushReplacementNamed(context, '/menu');
+    Future.delayed(const Duration(seconds: 1), () async {
+      bool isAuthenticated = SupaService.isUserAuthenticated();
+      // if (!isAuthenticated) {
+      //   await SupaService.signInWithGoogle();
+      // } else {
+         Navigator.pushReplacementNamed(context, '/menu');
+      // }
     });
   }
 

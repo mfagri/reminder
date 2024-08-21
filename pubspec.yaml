@@ -39,6 +39,8 @@ dependencies:
   flutter_svg: ^2.0.10+1
   omni_datetime_picker: ^2.0.3
   qr_scanner_with_effect: ^1.0.5
+  supabase_flutter: ^2.6.0
+  flutter_dotenv: ^5.1.0
   # scan: ^1.6.0
   # simple_barcode_scanner: ^0.1.1
 
@@ -68,6 +70,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
