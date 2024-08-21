@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
         '/menu': (context) => const MainPage(),
         '/addfriends': (context) => const AddFriends(),
         '/createtask': (context) => const CreateTask(),
+        '/login': (context) => const LoginPage(),
       },
       initialRoute: '/',
     );

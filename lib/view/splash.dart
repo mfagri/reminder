@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:myapp/services/supabase.dart';
+import 'package:supabase_auth_ui/supabase_auth_ui.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -14,11 +16,12 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
     Future.delayed(const Duration(seconds: 1), () async {
       bool isAuthenticated = SupaService.isUserAuthenticated();
-      // if (!isAuthenticated) {
-      //   await SupaService.signInWithGoogle();
-      // } else {
-         Navigator.pushReplacementNamed(context, '/menu');
-      // }
+
+      if (!isAuthenticated) {
+        Navigator.pushReplacementNamed(context, '/login');
+      } else {
+        Navigator.pushReplacementNamed(context, '/menu');
+      }
     });
   }
 
@@ -59,6 +62,57 @@ class _SplashPageState extends State<SplashPage> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  String? webid;
+  @override
+  void initState() {
+    Future.delayed(const Duration(seconds: 0), () async {
+      await dotenv.load(fileName: ".env");
+      setState(() {
+        webid = dotenv.env['WEB_CLIENT_ID'];
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xffF2F2F2),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 100,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: SupaSocialsAuth(
+                colored: true,
+                nativeGoogleAuthConfig: NativeGoogleAuthConfig(
+                  webClientId: webid,
+                ),
+                enableNativeAppleAuth: false,
+                socialProviders: OAuthProvider.values,
+                onSuccess: (session) {
+                  Navigator.of(context).pushReplacementNamed('/menu');
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

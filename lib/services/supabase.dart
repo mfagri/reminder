@@ -3,19 +3,16 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class SupaService {
   //auth
   static Future<void> signInWithGoogle() async {
-    final response = await Supabase.instance.client.auth
+    await Supabase.instance.client.auth
         .signInWithOAuth(OAuthProvider.google);
-    if (response == true) {
-      print('User signed in successfully!');
-    } else {
-      print('Error signing in');
-    }
+    //inset user data
+ 
   }
 
   static bool isUserAuthenticated() {
-  final user = Supabase.instance.client.auth.currentUser;
-  return user != null;
-}
+    final user = Supabase.instance.client.auth.currentUser;
+    return user != null;
+  }
 
   static Future<void> signOut() async {
     await Supabase.instance.client.auth.signOut();
@@ -27,9 +24,9 @@ class SupaService {
   }
 
 //Task Management
- static  Future<void> insertTask(String title, String description, DateTime startDate,
-      DateTime reminderTime) async {
-    final response = await Supabase.instance.client.from('tasks').insert({
+  static Future<void> insertTask(String title, String description,
+      DateTime startDate, DateTime reminderTime) async {
+    await Supabase.instance.client.from('tasks').insert({
       'user_id':
           Supabase.instance.client.auth.currentUser!.id, // Current user's ID
       'title': title,
@@ -53,7 +50,7 @@ class SupaService {
   ///Update task
 
   static Future<void> updateTaskStatus(String taskId, String status) async {
-    final response = await Supabase.instance.client
+    await Supabase.instance.client
         .from('tasks')
         .update({'status': status})
         .eq('id', taskId)
@@ -63,7 +60,7 @@ class SupaService {
 // Friends Management Functions
 
   static Future<void> sendFriendRequest(String friendId) async {
-    final response = await Supabase.instance.client.from('friends').insert({
+    await Supabase.instance.client.from('friends').insert({
       'user_id': Supabase.instance.client.auth.currentUser!.id,
       'friend_id': friendId,
       'status': 'pending',
@@ -84,9 +81,8 @@ class SupaService {
 
 //Shared Tasks Functions
 
- static  Future<void> shareTask(String taskId, String friendId) async {
-    final response =
-        await Supabase.instance.client.from('shared_tasks').insert({
+  static Future<void> shareTask(String taskId, String friendId) async {
+    await Supabase.instance.client.from('shared_tasks').insert({
       'task_id': taskId,
       'shared_with': friendId,
       'shared_by': Supabase.instance.client.auth.currentUser!.id,
@@ -94,7 +90,7 @@ class SupaService {
     }).select();
   }
 
- static  Future<List<Map<String, dynamic>>> getSharedTasks() async {
+  static Future<List<Map<String, dynamic>>> getSharedTasks() async {
     final response = await Supabase.instance.client
         .from('shared_tasks')
         .select('tasks(*), shared_by')
