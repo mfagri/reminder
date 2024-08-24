@@ -1,9 +1,9 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/helpers/icon_constants.dart';
-import 'package:myapp/helpers/utils.dart';
-import 'package:myapp/view/friends/friends.dart';
-import 'package:myapp/view/home/home.dart';
+import 'package:remindly/helpers/icon_constants.dart';
+import 'package:remindly/helpers/utils.dart';
+import 'package:remindly/view/friends/friends.dart';
+import 'package:remindly/view/home/home.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});

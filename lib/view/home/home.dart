@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/helpers/icon_constants.dart';
-import 'package:myapp/helpers/utils.dart';
-import 'package:myapp/view/home/widget/app_bar.dart';
-import 'package:myapp/view/home/widget/status_item.dart';
+import 'package:provider/provider.dart';
+import 'package:remindly/helpers/icon_constants.dart';
+import 'package:remindly/helpers/utils.dart';
+import 'package:remindly/model_view/task_provider.dart';
+import 'package:remindly/view/home/widget/app_bar.dart';
+import 'package:remindly/view/home/widget/status_item.dart';
 
 import '../../model/status_model.dart';
 
@@ -34,78 +36,78 @@ List<Status> status = [
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      resizeToAvoidBottomInset: true,
-      backgroundColor: const Color(0xffF2F2F2),
-      appBar: appBar(context),
-      body: Center(
-          child: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            height: 60,
-            child: ListView.builder(
-              padding: const EdgeInsets.only(right: 14),
-              itemCount: status.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return statusItem(status[index], context);
-              },
+    return Consumer<TaskProvider>(
+      builder: (context, taskprovider, child) => Scaffold(
+        extendBody: true,
+        resizeToAvoidBottomInset: true,
+        backgroundColor: const Color(0xffF2F2F2),
+        appBar: appBar(context),
+        body: Center(
+            child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          FutureBuilder(
-            future: Future.delayed(const Duration(seconds: 1), () async {
-            }),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator(
-                  color: Color(0xff1488CC),
-                );
-              }
-              if (snapshot.hasError) {
-                return Text(
-                  'Error: ${snapshot.error}',
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w500,
-                  ),
-                );
-              }
-              // if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              //   return const Expanded(
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [
-              //         Text(
-              //           'No tasks found.',
-              //           style: TextStyle(
-              //             color: Colors.black,
-              //             fontSize: 16,
-              //             fontFamily: 'Roboto',
-              //             fontWeight: FontWeight.w500,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   );
-              // }
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: 20,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                      ),
-                      child: Container(
+            SizedBox(
+              height: 60,
+              child: ListView.builder(
+                padding: const EdgeInsets.only(right: 14),
+                itemCount: status.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return statusItem(status[index], context);
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            FutureBuilder(
+              future: taskprovider.getUserTasks(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator(
+                    color: Color(0xff1488CC),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Text(
+                    'Error: ${snapshot.error}',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  );
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'No tasks found.',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                        ),
+                        child: Container(
                           padding: const EdgeInsets.all(10),
                           height: 60,
                           width: MediaQuery.of(context).size.width,
@@ -138,16 +140,18 @@ class _HomePageState extends State<HomePage> {
                               SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.7,
                                 height: 40,
-                                child: const Column(
+                                child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'tfi 3la tajin',
+                                      snapshot.data![index].name != null
+                                          ? snapshot.data![index].name!
+                                          : 'No name',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Color(0xFF313131),
                                         fontSize: 13,
                                         fontFamily: 'Nunito',
@@ -155,10 +159,13 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ),
                                     Text(
-                                      'By mfagri',
+                                      snapshot.data![index].createdBy != null
+                                          ? snapshot
+                                              .data![index].createdBy!.name!
+                                          : 'No name',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Color(0xFF717171),
                                         fontSize: 12,
                                         fontFamily: 'Nunito',
@@ -169,16 +176,18 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               )
                             ],
-                          )),
-                    );
-                  },
-                ),
-              );
-            },
-          ),
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:3671788434.
-        ],
-      )),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+            // Suggested code may be subject to a license. Learn more: ~LicenseLog:3671788434.
+          ],
+        )),
+      ),
     );
   }
 }

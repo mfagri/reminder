@@ -1,9 +1,11 @@
-
 import 'package:flutter/material.dart';
+import 'package:remindly/model/search_user.dart';
 
 class FrindsItem extends StatelessWidget {
-  const FrindsItem({
+  Searchuser user;
+  FrindsItem({
     super.key,
+    required this.user,
   });
 
   @override
@@ -35,22 +37,21 @@ class FrindsItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xffD4EFFF),
                 borderRadius: BorderRadius.circular(20),
-                image: const DecorationImage(
-                    image: NetworkImage(
-                        'https://i.pinimg.com/564x/02/ec/e0/02ece05f715a0c64cf3a4c6c443a924c.jpg'),
+                image: DecorationImage(
+                    image: NetworkImage(user.image.toString()),
                     fit: BoxFit.cover),
               ),
             ),
             const SizedBox(
               width: 17,
             ),
-            const Column(
+            Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Marouane fagri',
-                  style: TextStyle(
+                  user.name.toString(),
+                  style: const TextStyle(
                     color: Color(0xFF313131),
                     fontSize: 13,
                     fontFamily: 'Nunito',
@@ -58,8 +59,8 @@ class FrindsItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '@mfagri',
-                  style: TextStyle(
+                  user.email.toString(),
+                  style: const TextStyle(
                     color: Color(0xFF717171),
                     fontSize: 12,
                     fontFamily: 'Nunito',

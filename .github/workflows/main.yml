@@ -32,6 +32,7 @@ jobs:
           echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" > .env
           echo "SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env
           echo "WEB_CLIENT_ID=${{ secrets.WEB_CLIENT_ID }}" >> .env
+          echo "API_URL=${{ secrets.API_URL }}" >> .env
       - name: Get date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"

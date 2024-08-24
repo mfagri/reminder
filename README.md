@@ -1,4 +1,4 @@
-# myapp
+# remindly
 
 A new Flutter project.
 

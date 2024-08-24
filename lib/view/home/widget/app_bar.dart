@@ -1,9 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:myapp/helpers/icon_constants.dart';
-import 'package:myapp/helpers/utils.dart';
-import 'package:myapp/services/supabase.dart';
+import 'package:provider/provider.dart';
+import 'package:remindly/helpers/icon_constants.dart';
+import 'package:remindly/helpers/utils.dart';
+import 'package:remindly/model_view/auth_provider.dart';
+import 'package:remindly/view/profile/profile.dart';
 
 AppBar appBar(BuildContext context) {
   return AppBar(
@@ -39,8 +41,8 @@ AppBar appBar(BuildContext context) {
               ),
               InkWell(
                 onTap: () async {
-                  await SupaService.signOut();
-                  Navigator.pushReplacementNamed(context, '/login');
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Profile()));
                 },
                 child: Container(
                   height: 40,
@@ -48,9 +50,13 @@ AppBar appBar(BuildContext context) {
                   decoration: BoxDecoration(
                     color: const Color(0xff1488CC),
                     borderRadius: BorderRadius.circular(20),
-                    image: const DecorationImage(
+                    image: DecorationImage(
                       image: NetworkImage(
-                          'https://i.pinimg.com/564x/2d/0f/37/2d0f378284b1d78a5e1c558f762ce3b1.jpg'),
+                        Provider.of<AuthProvider>(context, listen: false)
+                            .user!
+                            .image
+                            .toString(),
+                      ),
                       fit: BoxFit.cover,
                     ),
                   ),

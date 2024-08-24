@@ -1,10 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:myapp/helpers/utils.dart';
-import 'package:myapp/view/task/widget/input_widget.dart';
+import 'package:provider/provider.dart';
+import 'package:remindly/helpers/utils.dart';
+import 'package:remindly/model_view/auth_provider.dart';
+import 'package:remindly/model_view/friend_provider.dart';
+import 'package:remindly/model_view/task_provider.dart';
+import 'package:remindly/view/task/widget/input_widget.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
-import 'package:myapp/helpers/icon_constants.dart';
-import 'package:myapp/view/task/widget/friends_dropdown.dart';
-import 'package:myapp/view/task/widget/time_dropdown.dart';
+import 'package:remindly/helpers/icon_constants.dart';
+import 'package:remindly/view/task/widget/friends_dropdown.dart';
+import 'package:remindly/view/task/widget/time_dropdown.dart';
 
 class CreateTask extends StatefulWidget {
   const CreateTask({super.key});
@@ -18,38 +24,47 @@ class _CreateTaskState extends State<CreateTask> {
   DateTime selectedDate = DateTime.now();
   TextEditingController taskNameController = TextEditingController();
   TextEditingController taskDescriptionController = TextEditingController();
-  int selectedId = 0; //int by user id
   int selectedTime = 20;
+  String selectedFriend = 'select friend';
+  @override
+  void initState() {
+    Provider.of<FriendProvider>(context, listen: false).getfriends();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xffFFFFFF),
-      resizeToAvoidBottomInset: true,
-      appBar: myAppbar(context, "Create Task"),
-      body: Center(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(14),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              buildInputFields(taskNameController, taskDescriptionController),
-              const SizedBox(height: 20),
-              _buildForSection(),
-              if (!me) const SizedBox(height: 20),
-              if (!me) FriendsDropdown(iduser: selectedId),
-              const SizedBox(height: 20),
-              _buildDatePicker(context, selectedDate),
-              const SizedBox(height: 20),
-              const _TaskTimeReminder(),
-              const SizedBox(height: 20),
-              _buildActionButton('Create', 0xff5F4BA3),
-              const SizedBox(height: 20),
-              _buildActionButtonWithIcon(
-                  'Send Reminder', 0xff1488CC, IconsConstants.send),
-              const SizedBox(height: 20),
-            ],
+    return Consumer<TaskProvider>(
+      builder: (context, value, child) => Scaffold(
+        backgroundColor: const Color(0xffFFFFFF),
+        resizeToAvoidBottomInset: true,
+        appBar: myAppbar(context, "Create Task"),
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                buildInputFields(),
+                const SizedBox(height: 20),
+                _buildForSection(),
+                if (!me) const SizedBox(height: 20),
+                if (!me) FriendsDropdown(iduser: selectedFriend),
+                const SizedBox(height: 20),
+                _buildDatePicker(context, selectedDate),
+                const SizedBox(height: 20),
+                _TaskTimeReminder(
+                  selectedTime: selectedTime,
+                ),
+                const SizedBox(height: 20),
+                _buildActionButton('Create', 0xff5F4BA3, context),
+                const SizedBox(height: 20),
+                _buildActionButtonWithIcon(
+                    'Send Reminder', 0xff1488CC, IconsConstants.send),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
@@ -95,93 +110,131 @@ class _CreateTaskState extends State<CreateTask> {
 
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:3290925913.
   Widget _buildDatePicker(BuildContext context, DateTime selectedDate) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Date', style: _labelStyle),
-        const SizedBox(height: 6),
-        SizedBox(
-          height: 40,
-          child: TextField(
-            onTap: () async {
-              DateTime? dateTime = await showOmniDateTimePicker(
-                theme: ThemeData(
-                  primaryColor: const Color(0xff1488CC),
-                  colorScheme: const ColorScheme.light(
-                    primary: Color(0xff1488CC),
+    return Consumer<TaskProvider>(
+      builder: (context, value, child) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Date', style: _labelStyle),
+          const SizedBox(height: 6),
+          SizedBox(
+            height: 40,
+            child: TextField(
+              onTap: () async {
+                DateTime? dateTime = await showOmniDateTimePicker(
+                  theme: ThemeData(
+                    primaryColor: const Color(0xff1488CC),
+                    colorScheme: const ColorScheme.light(
+                      primary: Color(0xff1488CC),
+                    ),
                   ),
-                ),
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1600).subtract(const Duration(days: 3652)),
-                lastDate: DateTime.now().add(const Duration(days: 3652)),
-                is24HourMode: false,
-                minutesInterval: 1,
-                borderRadius: const BorderRadius.all(Radius.circular(16)),
-                constraints:
-                    const BoxConstraints(maxWidth: 350, maxHeight: 650),
-                barrierDismissible: true,
-              );
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate:
+                      DateTime(1600).subtract(const Duration(days: 3652)),
+                  lastDate: DateTime.now().add(const Duration(days: 3652)),
+                  is24HourMode: false,
+                  minutesInterval: 1,
+                  borderRadius: const BorderRadius.all(Radius.circular(16)),
+                  constraints:
+                      const BoxConstraints(maxWidth: 350, maxHeight: 650),
+                  barrierDismissible: true,
+                );
 
-              setState(() {
-                if (dateTime != null) selectedDate = dateTime;
-              });
-            },
-            readOnly: true,
-            decoration: InputDecoration(
-              hintText:
-                  '${selectedDate.day}/${selectedDate.month}/${selectedDate.year} ${selectedDate.hour}:${selectedDate.minute}',
-              hintStyle: const TextStyle(
-                color: Colors.black,
-                fontSize: 14,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w400,
-              ),
-              prefixIcon: Center(
-                  child:
-                      appIcon(IconsConstants.monthly, false, context, 20, 20)),
-              prefixIconConstraints: const BoxConstraints(
-                maxHeight: 40,
-                maxWidth: 50,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(2),
-                borderSide: const BorderSide(color: Color(0xFFC4C4C4)),
+                setState(() {
+                  if (dateTime != null) {
+                    value.setDate('${dateTime.toIso8601String()}Z');
+                  }
+                });
+              },
+              readOnly: true,
+              decoration: InputDecoration(
+                hintText:
+                    '${selectedDate.day}/${selectedDate.month}/${selectedDate.year} ${selectedDate.hour}:${selectedDate.minute}',
+                hintStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w400,
+                ),
+                prefixIcon: Center(
+                    child: appIcon(
+                        IconsConstants.monthly, false, context, 20, 20)),
+                prefixIconConstraints: const BoxConstraints(
+                  maxHeight: 40,
+                  maxWidth: 50,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(2),
+                  borderSide: const BorderSide(color: Color(0xFFC4C4C4)),
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget _buildActionButton(String label, int color) {
-    return InkWell(
-      onTap: () async {
-        // await SupaService.insertTask(
-        //     taskNameController.text,
-        //     taskDescriptionController.text,
-        //     selectedDate,
-        //     DateTime.now().add(Duration(minutes: selectedTime)));
-        // if (mounted) {
-        //   Navigator.pop(context);
-        // }
-      },
-      child: Container(
-        height: 44,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: Color(color),
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w500,
+  Widget _buildActionButton(String label, int color, BuildContext context) {
+    return Consumer<TaskProvider>(
+      builder: (context, value, child) => InkWell(
+        onTap: () async {
+          loadingWidget(context);
+          try {
+            await Provider.of<TaskProvider>(context, listen: false).createTask(
+              value.titleController.text,
+              value.descriptionController.text,
+              value.date,
+              me
+                  ? Provider.of<AuthProvider>(context, listen: false)
+                      .user!
+                      .sId
+                      .toString()
+                  : value.id,
+              value.remindertime,
+            );
+          } catch (e) {
+            if (mounted) {
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    e.toString(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              );
+            }
+            return;
+          }
+          if (mounted) {
+            Navigator.pop(context);
+          }
+          if (mounted) {
+            Navigator.pop(context);
+          }
+        },
+        child: Container(
+          height: 44,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Color(color),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ),
@@ -235,16 +288,21 @@ const TextStyle _labelStyle = TextStyle(
 );
 
 class _TaskTimeReminder extends StatelessWidget {
-  const _TaskTimeReminder();
+  int selectedTime = 20;
+  _TaskTimeReminder({
+    required this.selectedTime,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Time to remind', style: _labelStyle),
-        SizedBox(height: 8),
-        TimeWidget(),
+        const Text('Time to remind', style: _labelStyle),
+        const SizedBox(height: 8),
+        TimeWidget(
+          reminderTime: selectedTime,
+        ),
       ],
     );
   }

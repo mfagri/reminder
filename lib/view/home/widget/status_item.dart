@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/helpers/utils.dart';
-import 'package:myapp/model/status_model.dart';
+import 'package:remindly/helpers/utils.dart';
+import 'package:remindly/model/status_model.dart';
 
 Center statusItem(Status status, BuildContext context) {
     return Center(

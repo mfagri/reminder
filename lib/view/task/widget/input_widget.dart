@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:remindly/model_view/task_provider.dart';
 
 class InputWidget extends StatelessWidget {
   String name;
@@ -71,20 +73,20 @@ class InputWidget extends StatelessWidget {
   }
 }
 
-
-  Widget buildInputFields(
-      TextEditingController name, TextEditingController desc) {
-    return Column(
+Widget buildInputFields() {
+  return Consumer<TaskProvider>(
+    builder: (context, value, child) => Column(
       children: [
         InputWidget(
             name: 'Task Name',
-            controller: TextEditingController(),
+            controller: value.titleController,
             isDescription: false),
         const SizedBox(height: 20),
         InputWidget(
             name: 'Task Description',
-            controller: TextEditingController(),
+            controller: value.descriptionController,
             isDescription: true),
       ],
-    );
-  }
+    ),
+  );
+}
