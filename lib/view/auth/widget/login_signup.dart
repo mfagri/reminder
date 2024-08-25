@@ -246,8 +246,10 @@ class _AuthCaseState extends State<AuthCase> {
                                 ],
                               ),
                             );
+                            value.clearError();
                           }
                           if (value.isLogin) {
+                            value.clearError();
                             Navigator.of(context).pushReplacementNamed('/menu');
                           }
                         }

@@ -54,4 +54,36 @@ class AuthServer {
       return null;
     }
   }
+
+  //update profile
+  static Future<dynamic> updateProfile(String name, String email) async {
+    String? token = await LocalStorage.getToken();
+    try {
+      final response = await dio.put('$apiUrl/users/update',
+          data: {'name': name, 'email': email},
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  //update password
+  static Future<dynamic> updatePassword(String oldPassword,newPassword) async {
+    String? token = await LocalStorage.getToken();
+    try {
+      final response = await dio.put('$apiUrl/users/update-password',
+          data: {'oldPassword': oldPassword, 'newPassword': newPassword},
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      if (response.statusCode == 200) {
+        return response.data;
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
 }

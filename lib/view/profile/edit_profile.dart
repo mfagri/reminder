@@ -11,6 +11,19 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  //controller for the textfield
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
+  @override
+  void initState() {
+    nameController = TextEditingController(
+        text: Provider.of<AuthProvider>(context, listen: false).user!.name!);
+    emailController = TextEditingController(
+        text: Provider.of<AuthProvider>(context, listen: false).user!.email!);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthProvider>(
@@ -80,6 +93,7 @@ class _EditProfileState extends State<EditProfile> {
                         height: 20,
                       ),
                       TextFormField(
+                        controller: nameController,
                         decoration: InputDecoration(
                           hintText: value.user!.name!,
                           border: OutlineInputBorder(
@@ -91,6 +105,7 @@ class _EditProfileState extends State<EditProfile> {
                         height: 20,
                       ),
                       TextFormField(
+                        controller: emailController,
                         decoration: InputDecoration(
                           hintText: value.user!.email!,
                           border: OutlineInputBorder(
@@ -101,20 +116,43 @@ class _EditProfileState extends State<EditProfile> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Container(
-                        height: 50,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: const Color(0xff5F4BA3),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Update',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                      InkWell(
+                        onTap: () async {
+                          value.updateProfile(
+                            nameController.text,
+                            emailController.text,
+                          );
+                          if (value.error != null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(value.error!),
+                              ),
+                            );
+                            value.clearError();
+                          } else {
+                            value.clearError();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Profile Updated'),
+                              ),
+                            );
+                          }
+                        },
+                        child: Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff5F4BA3),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Update',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),

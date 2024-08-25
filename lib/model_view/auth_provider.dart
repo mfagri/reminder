@@ -55,9 +55,36 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future updateProfile(String name, String email) async {
+    var data = await AuthServer.updateProfile(name, email);
+    if (data == null) {
+      error = 'Error updating profile';
+      notifyListeners();
+      return;
+    }
+    user = User.fromJson(data['user']);
+    notifyListeners();
+  }
+
+  //update password
+  Future updatePassword(String oldPassword,String newPassword) async {
+    var data = await AuthServer.updatePassword(oldPassword,newPassword);
+    if (data == null) {
+      error = 'Error updating password';
+      notifyListeners();
+      return;
+    }
+    notifyListeners();
+  }
+
   void logout() {
     LocalStorage.removeToken();
     user = null;
+    notifyListeners();
+  }
+
+  void clearError() {
+    error = null;
     notifyListeners();
   }
 }
