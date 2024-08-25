@@ -79,9 +79,12 @@ class _ShowTaskState extends State<ShowTask> {
               const SizedBox(
                 height: 5,
               ),
+
               TaskInfo(
                 widget: widget,
-                content: formattedDate(DateTime.parse(widget.task.startDate!)),
+                content: widget.task.startDate != null
+                    ? formattedDate(DateTime.parse(widget.task.startDate!))
+                    : 'no start date',
               ),
               const SizedBox(
                 height: 20,
@@ -100,7 +103,9 @@ class _ShowTaskState extends State<ShowTask> {
               ),
               TaskInfo(
                 widget: widget,
-                content: widget.task.reminderTime!.toString(),
+                content: widget.task.reminderTime != null
+                    ? widget.task.reminderTime.toString()
+                    : 'no reminder time',
               ),
               const SizedBox(
                 height: 20,

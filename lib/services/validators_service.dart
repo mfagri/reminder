@@ -32,16 +32,31 @@ class ValidateService {
     return null;
   }
 
+  static String? validatePassword2(String password) {
+    if (password.length < 8) {
+      return 'Password must be at \nleast 8 characters long.';
+    }
+    if (!RegExp(r'(?=.*[A-Z])').hasMatch(password)) {
+      return 'Password must contain at\nleast one uppercase letter.';
+    }
+    if (!RegExp(r'(?=.*[a-z])').hasMatch(password)) {
+      return 'Password must contain at\nleast one lowercase letter.';
+    }
+    if (!RegExp(r'(?=.*\d)').hasMatch(password)) {
+      return 'Password must contain at\nleast one digit.';
+    }
+    if (!RegExp(r'(?=.*[!@#$%^&*(),.?":{}|<>])').hasMatch(password)) {
+      return 'Password must contain at\nleast one special character.';
+    }
+    return null; // Valid password
+  }
+
   static String? validatePassword(String? value) {
     String? isEmpty = isEmptyField(value!);
-    String pattern = r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$';
-    RegExp regExp = RegExp(pattern);
-
     if (isEmpty != null) {
       return isEmpty;
-    } else if (!regExp.hasMatch(value)) {
-      return "Minimum eight characters, at least one letter and one number";
+    } else {
+      return validatePassword2(value);
     }
-    return null;
   }
 }

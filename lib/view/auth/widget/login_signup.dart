@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:remindly/helpers/utils.dart';
 import 'package:remindly/model_view/auth_provider.dart';
-import 'package:remindly/services/validators.dart';
+import 'package:remindly/services/validators_service.dart';
 
 class AuthCase extends StatefulWidget {
   final bool isLogin;

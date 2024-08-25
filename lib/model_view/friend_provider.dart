@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:remindly/model/search_user.dart';
-import 'package:remindly/services/friend_server.dart';
+import 'package:remindly/services/friend_service.dart';
 
 class FriendProvider extends ChangeNotifier {
   List<Searchuser> users = [];

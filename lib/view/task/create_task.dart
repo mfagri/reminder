@@ -21,7 +21,6 @@ class CreateTask extends StatefulWidget {
 
 class _CreateTaskState extends State<CreateTask> {
   bool me = true;
-  DateTime selectedDate = DateTime.now();
   TextEditingController taskNameController = TextEditingController();
   TextEditingController taskDescriptionController = TextEditingController();
   int selectedTime = 20;
@@ -52,7 +51,7 @@ class _CreateTaskState extends State<CreateTask> {
                 if (!me) const SizedBox(height: 20),
                 if (!me) FriendsDropdown(iduser: selectedFriend),
                 const SizedBox(height: 20),
-                _buildDatePicker(context, selectedDate),
+                _buildDatePicker(context),
                 const SizedBox(height: 20),
                 _TaskTimeReminder(
                   selectedTime: selectedTime,
@@ -109,7 +108,7 @@ class _CreateTaskState extends State<CreateTask> {
   }
 
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:3290925913.
-  Widget _buildDatePicker(BuildContext context, DateTime selectedDate) {
+  Widget _buildDatePicker(BuildContext context) {
     return Consumer<TaskProvider>(
       builder: (context, value, child) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,6 +141,7 @@ class _CreateTaskState extends State<CreateTask> {
 
                 setState(() {
                   if (dateTime != null) {
+                    value.setselectedDate(dateTime);
                     value.setDate('${dateTime.toIso8601String()}Z');
                   }
                 });
@@ -149,7 +149,7 @@ class _CreateTaskState extends State<CreateTask> {
               readOnly: true,
               decoration: InputDecoration(
                 hintText:
-                    '${selectedDate.day}/${selectedDate.month}/${selectedDate.year} ${selectedDate.hour}:${selectedDate.minute}',
+                    '${value.selectedDate.day}/${value.selectedDate.month}/${value.selectedDate.year} ${value.selectedDate.hour}:${value.selectedDate.minute}',
                 hintStyle: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,
@@ -179,12 +179,31 @@ class _CreateTaskState extends State<CreateTask> {
     return Consumer<TaskProvider>(
       builder: (context, value, child) => InkWell(
         onTap: () async {
+          if (value.titleController.text.isEmpty ||
+              value.descriptionController.text.isEmpty ||
+              value.date == null ||
+              value.remindertime == 0) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Please fill all fields'),
+              ),
+            );
+            return;
+          }
+          if (!me && value.id.isEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Please select a friend'),
+              ),
+            );
+            return;
+          }
           loadingWidget(context);
           try {
             await Provider.of<TaskProvider>(context, listen: false).createTask(
               value.titleController.text,
               value.descriptionController.text,
-              value.date,
+              value.date!,
               me
                   ? Provider.of<AuthProvider>(context, listen: false)
                       .user!
@@ -298,7 +317,7 @@ class _TaskTimeReminder extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Time to remind', style: _labelStyle),
+        const Text('Time to remind  (default is 30)', style: _labelStyle),
         const SizedBox(height: 8),
         TimeWidget(
           reminderTime: selectedTime,

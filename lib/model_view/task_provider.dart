@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:remindly/model/task.dart';
-import 'package:remindly/services/task_server.dart';
+import 'package:remindly/services/task_service.dart';
 
 class TaskProvider extends ChangeNotifier {
   List<Task> tasks = [];
   List<Task> get getTasks => tasks;
-  String error = '';
+  String? error;
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  String date = '';
+  String? date;
   String id = '';
-  int remindertime = 0;
+  int remindertime = 30;
+  DateTime selectedDate = DateTime.now();
 
   void addTask(Task task) {
     tasks.add(task);
@@ -68,6 +69,11 @@ class TaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setselectedDate(DateTime date) {
+    selectedDate = date;
+    notifyListeners();
+  }
+
   //set id
   void setId(String id) {
     this.id = id;
@@ -82,7 +88,7 @@ class TaskProvider extends ChangeNotifier {
 
   //clear error
   void clearError() {
-    error = '';
+    error = null;
     notifyListeners();
   }
 
@@ -95,9 +101,10 @@ class TaskProvider extends ChangeNotifier {
 
   //clear date and id and remindertime
   void clearDateIdRemindertime() {
-    date = '';
+    date = null;
     id = '';
-    remindertime = 20;
+    remindertime = 30;
+    selectedDate = DateTime.now();
     notifyListeners();
   }
 }

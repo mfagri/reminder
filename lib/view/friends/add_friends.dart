@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:remindly/helpers/utils.dart';
 import 'package:remindly/model_view/friend_provider.dart';
-import 'package:remindly/services/friend_server.dart';
+import 'package:remindly/services/friend_service.dart';
 import 'package:remindly/view/friends/friends_item.dart';
 import 'package:remindly/view/friends/scan_view.dart';
 // import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';

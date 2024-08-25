@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:remindly/model/user.dart';
-import 'package:remindly/services/auth_server.dart';
+import 'package:remindly/services/auth_service.dart';
 import 'package:remindly/services/local_storage.dart';
 
 class AuthProvider extends ChangeNotifier {
