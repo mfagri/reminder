@@ -21,13 +21,16 @@ class _SplashPageState extends State<SplashPage> {
           if (mounted) {
             if (Provider.of<AuthProvider>(context, listen: false).isLogin ==
                 false) {
+              LocalStorage.removeToken();
               Navigator.pushReplacementNamed(context, '/auth');
+            } else {
+              if (mounted) {
+                Navigator.pushReplacementNamed(context, '/menu');
+              }
             }
           }
-          if (mounted) {
-            Navigator.pushReplacementNamed(context, '/menu');
-          }
         } else {
+          LocalStorage.removeToken();
           Navigator.pushReplacementNamed(context, '/auth');
         }
       });
