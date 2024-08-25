@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:remindly/helpers/utils.dart';
 import 'package:remindly/model/status_model.dart';
 
-Center statusItem(Status status, BuildContext context) {
+Center statusItem(Status status, bool isselcted, BuildContext context) {
   return Center(
     child: Container(
         margin: const EdgeInsets.only(left: 10),
         height: 60,
         width: 172,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isselcted ? status.color : Colors.white,
           borderRadius: BorderRadius.circular(5),
           border: Border.all(
             color: const Color(0xffE0E0E0),

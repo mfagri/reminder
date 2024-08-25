@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 }
 
 String selectedStatus = 'pending';
-
+Status selectedStatusModel = status[0];
 List<Status> status = [
   Status(
       title: 'Pending',
@@ -66,9 +66,13 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         setState(() {
                           selectedStatus = status[index].title.toLowerCase();
+                          selectedStatusModel = status[index];
                         });
                       },
-                      child: statusItem(status[index], context));
+                      child: statusItem(
+                          status[index],
+                          selectedStatus == status[index].title.toLowerCase(),
+                          context));
                 },
               ),
             ),
@@ -155,12 +159,12 @@ class _HomePageState extends State<HomePage> {
                                     height: 40,
                                     width: 40,
                                     decoration: BoxDecoration(
-                                      color: const Color(0xffD4EFFF),
+                                      color: selectedStatusModel.color,
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Center(
-                                      child: appIcon(IconsConstants.task, false,
-                                          context, 20, 20),
+                                      child: appIcon(selectedStatusModel.icon,
+                                          false, context, 15, 15),
                                     ),
                                   ),
                                   const SizedBox(
