@@ -6,6 +6,7 @@ import 'package:remindly/model_view/task_provider.dart';
 import 'package:remindly/view/auth/auth.dart';
 import 'package:remindly/view/friends/add_friends.dart';
 import 'package:remindly/view/menu/menu.dart';
+import 'package:remindly/view/profile/edit_profile.dart';
 import 'package:remindly/view/splash.dart';
 import 'package:remindly/view/task/create_task.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           '/createtask': (context) => const CreateTask(),
           // '/login': (context) => const LoginPage(),
           '/auth': (context) => const AuthPage(),
+          '/editprofile': (context) => const EditProfile(),
         },
         initialRoute: '/',
       ),

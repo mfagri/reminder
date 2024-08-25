@@ -59,6 +59,7 @@ class Profile extends StatelessWidget {
                               height: 10,
                             ),
                             Container(
+                              clipBehavior: Clip.antiAlias,
                               height: 150,
                               width: 150,
                               decoration: BoxDecoration(
@@ -70,7 +71,7 @@ class Profile extends StatelessWidget {
                                     .toString()
                                     .split(',')
                                     .last),
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               ),
                             )
                           ],
@@ -135,33 +136,6 @@ class Profile extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              const Icon(Icons.phone,
-                                  size: 20,
-                                  color: Color(
-                                    0xffA4A4A4,
-                                  )),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                authProvider.user!.email!,
-                                style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
                         ]),
                       ),
                     ),
@@ -178,15 +152,17 @@ class Profile extends StatelessWidget {
                         ),
                         child: InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, '/edit_profile');
+                            Navigator.pushNamed(context, '/editprofile');
                           },
                           child: const Row(
                             children: [
-                              Icon(Icons.edit,
-                                  size: 20,
-                                  color: Color(
-                                    0xffA4A4A4,
-                                  )),
+                              Icon(
+                                Icons.edit,
+                                size: 20,
+                                color: Color(
+                                  0xffA4A4A4,
+                                ),
+                              ),
                               SizedBox(
                                 width: 10,
                               ),
@@ -222,11 +198,13 @@ class Profile extends StatelessWidget {
                           },
                           child: const Row(
                             children: [
-                              Icon(Icons.logout,
-                                  size: 20,
-                                  color: Color(
-                                    0xffA4A4A4,
-                                  )),
+                              Icon(
+                                Icons.logout,
+                                size: 20,
+                                color: Color(
+                                  0xffA4A4A4,
+                                ),
+                              ),
                               SizedBox(
                                 width: 10,
                               ),

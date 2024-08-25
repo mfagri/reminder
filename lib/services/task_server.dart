@@ -42,5 +42,25 @@ class TaskServer {
     } catch (e) {
       return null;
     }
+
+    //update task
+  }
+
+  static Future<bool> updatetask(String id, String status) async {
+    try {
+      String? token = await LocalStorage.getToken();
+      final response = await dio.put('$apiUrl/tasks/tasks/$id',
+          data: {
+            "status": status,
+          },
+          options: Options(
+              headers: {'Authorization': 'Bearer ${token.toString()}'}));
+      if (response.statusCode == 200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 }

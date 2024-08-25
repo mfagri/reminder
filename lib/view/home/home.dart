@@ -5,7 +5,7 @@ import 'package:remindly/helpers/utils.dart';
 import 'package:remindly/model_view/task_provider.dart';
 import 'package:remindly/view/home/widget/app_bar.dart';
 import 'package:remindly/view/home/widget/status_item.dart';
-
+import 'package:remindly/view/task/show_task.dart';
 import '../../model/status_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,7 +30,12 @@ List<Status> status = [
       title: 'In Progress',
       icon: IconsConstants.inprogress,
       color: const Color(0xffFFEDAA),
-      value: '2')
+      value: '2'),
+  Status(
+      title: 'Rejected',
+      icon: IconsConstants.close,
+      color: const Color(0xffFFD1D1),
+      value: '3'),
 ];
 
 class _HomePageState extends State<HomePage> {
@@ -103,79 +108,94 @@ class _HomePageState extends State<HomePage> {
                   child: ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          height: 60,
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: const Color(0xffE0E0E0),
-                              width: 1,
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ShowTask(
+                                task: snapshot.data![index],
+                              ),
                             ),
+                          );
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
                           ),
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xffD4EFFF),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Center(
-                                  child: appIcon(IconsConstants.task, false,
-                                      context, 20, 20),
-                                ),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 500),
+                            padding: const EdgeInsets.all(10),
+                            // height: 60,
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.only(bottom: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: const Color(0xffE0E0E0),
+                                width: 1,
                               ),
-                              const SizedBox(
-                                width: 17,
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.7,
-                                height: 40,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      snapshot.data![index].name != null
-                                          ? snapshot.data![index].name!
-                                          : 'No name',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                        color: Color(0xFF313131),
-                                        fontSize: 13,
-                                        fontFamily: 'Nunito',
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Text(
-                                      snapshot.data![index].createdBy != null
-                                          ? snapshot
-                                              .data![index].createdBy!.name!
-                                          : 'No name',
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                        color: Color(0xFF717171),
-                                        fontSize: 12,
-                                        fontFamily: 'Nunito',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffD4EFFF),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Center(
+                                    child: appIcon(IconsConstants.task, false,
+                                        context, 20, 20),
+                                  ),
                                 ),
-                              )
-                            ],
+                                const SizedBox(
+                                  width: 17,
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                  height: 40,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot.data![index].name != null
+                                            ? snapshot.data![index].name!
+                                            : 'No name',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: const TextStyle(
+                                          color: Color(0xFF313131),
+                                          fontSize: 13,
+                                          fontFamily: 'Nunito',
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      Text(
+                                        snapshot.data![index].createdBy != null
+                                            ? snapshot
+                                                .data![index].createdBy!.name!
+                                            : 'No name',
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: const TextStyle(
+                                          color: Color(0xFF717171),
+                                          fontSize: 12,
+                                          fontFamily: 'Nunito',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       );

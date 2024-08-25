@@ -73,3 +73,9 @@ Future<dynamic> loadingWidget(BuildContext context) {
             ),
           ));
 }
+
+
+//formatted date
+String formattedDate(DateTime date) {
+  return '${date.day}/${date.month}/${date.year}';
+}

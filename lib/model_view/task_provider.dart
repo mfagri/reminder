@@ -51,6 +51,17 @@ class TaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> updateTask(String id, String status) async {
+    var data = await TaskServer.updatetask(id, status);
+    if (data) {
+      tasks.firstWhere((element) => element.sId == id).status = status;
+    } else {
+      error = 'Error updating task';
+    }
+    notifyListeners();
+    return data;
+  }
+
   //set date
   void setDate(String date) {
     this.date = date;
