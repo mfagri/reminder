@@ -23,11 +23,21 @@ class _CreateTaskState extends State<CreateTask> {
   bool me = true;
   TextEditingController taskNameController = TextEditingController();
   TextEditingController taskDescriptionController = TextEditingController();
-  int selectedTime = 20;
+  int selectedTime = 30;
   String selectedFriend = 'select friend';
   @override
   void initState() {
     Provider.of<FriendProvider>(context, listen: false).getfriends();
+    taskDescriptionController = TextEditingController();
+    taskNameController = TextEditingController();
+    selectedFriend = 'select friend';
+    selectedTime = 30;
+    me = true;
+    Future.delayed(Duration.zero, () {
+      Provider.of<TaskProvider>(context, listen: false).clearControllers();
+      Provider.of<TaskProvider>(context, listen: false)
+          .clearDateIdRemindertime();
+    });
     super.initState();
   }
 

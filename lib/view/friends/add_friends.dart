@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:remindly/helpers/utils.dart';
@@ -8,6 +9,8 @@ import 'package:remindly/view/friends/scan_view.dart';
 // import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 // import 'package:scan/scan.dart';
 
+
+
 class AddFriends extends StatefulWidget {
   const AddFriends({super.key});
 
@@ -16,10 +19,21 @@ class AddFriends extends StatefulWidget {
 }
 
 class _AddFriendsState extends State<AddFriends> {
+  //search controller
+  TextEditingController searchController = TextEditingController();
   @override
   void initState() {
+    searchController = TextEditingController();
     super.initState();
   }
+
+  //destroy the controller
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +98,24 @@ class _AddFriendsState extends State<AddFriends> {
                       maxWidth: 40,
                     ),
                   ),
-                  onChanged: (name) async {
-                    loadingWidget(context);
-                    await friendProvider.searchUser(name).then((value) {
-                      Navigator.pop(context);
+                  // onChanged: (name) async {
+                  //   _debouncer.run(() {
+                  //     loadingWidget(context);
+                  //     friendProvider.searchUser(name).then((value) {
+                  //       Navigator.pop(context);
+                  //     });
+                  //   });
+                  // },
+                  controller: searchController,
+                  textInputAction: TextInputAction.search,
+                  onEditingComplete: () {
+                    // FocusScope.of(context).unfocus();
+                    // _debouncer.run(() {
+
+                    friendProvider
+                        .searchUser(searchController.text)
+                        .then((value) {
+                      // });
                     });
                   },
                   style: const TextStyle(
@@ -103,7 +131,7 @@ class _AddFriendsState extends State<AddFriends> {
               ),
               if (friendProvider.users.isEmpty)
                 const Text(
-                  'No Friends Found',
+                  'No User Found',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,
@@ -123,8 +151,19 @@ class _AddFriendsState extends State<AddFriends> {
                               .then(
                             (value) {
                               Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(value),
+                                ),
+                              );
                             },
-                          );
+                          ).onError((error, stackTrace) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('You are already friends'),
+                              ),
+                            );
+                          });
                         },
                         child: FrindsItem(
                           user: friendProvider.users[index],

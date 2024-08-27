@@ -17,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 String selectedStatus = 'pending';
 Status selectedStatusModel = status[0];
+
 List<Status> status = [
   Status(
       title: 'Pending',
@@ -163,8 +164,14 @@ class _HomePageState extends State<HomePage> {
                                       borderRadius: BorderRadius.circular(20),
                                     ),
                                     child: Center(
-                                      child: appIcon(selectedStatusModel.icon,
-                                          false, context, 15, 15),
+                                      child: appIcon(
+                                        IconsConstants.task,
+                                        false,
+                                        context,
+                                        20,
+                                        20,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
                                   const SizedBox(

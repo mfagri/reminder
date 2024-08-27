@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:remindly/helpers/icon_constants.dart';
@@ -66,6 +68,7 @@ AppBar myAppbar(BuildContext context, String title) {
 
 Future<dynamic> loadingWidget(BuildContext context) {
   return showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) => const Center(
             child: CircularProgressIndicator(
@@ -74,8 +77,23 @@ Future<dynamic> loadingWidget(BuildContext context) {
           ));
 }
 
-
 //formatted date
 String formattedDate(DateTime date) {
   return '${date.day}/${date.month}/${date.year}';
+}
+
+class Debouncer {
+  final int milliseconds;
+  Timer? _timer;
+
+  Debouncer({required this.milliseconds});
+
+  void run(VoidCallback action) {
+    _timer?.cancel();
+    _timer = Timer(Duration(milliseconds: milliseconds), action);
+  }
+
+  void dispose() {
+    _timer?.cancel();
+  }
 }

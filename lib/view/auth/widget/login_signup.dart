@@ -46,33 +46,65 @@ class _AuthCaseState extends State<AuthCase> {
           child: Center(
             child: Form(
               key: widget.formkey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    widget.isLogin ? 'Login' : 'Signup',
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w700,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      widget.isLogin ? 'Login' : 'Signup',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  if (!widget.isLogin)
-                    //name
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    if (!widget.isLogin)
+                      //name
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: TextFormField(
+                          controller: widget.nameController,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Name is required';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            fillColor: Color(0xffFFFFFF),
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0xffC4C4C4),
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                            hintText: 'Name',
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    //email
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextFormField(
-                        controller: widget.nameController,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Name is required';
-                          }
-                          return null;
-                        },
+                        controller: widget.emailController,
+                        validator: ValidateService.validateEmail,
                         decoration: const InputDecoration(
                           fillColor: Color(0xffFFFFFF),
                           filled: true,
@@ -85,7 +117,7 @@ class _AuthCaseState extends State<AuthCase> {
                               Radius.circular(10),
                             ),
                           ),
-                          hintText: 'Name',
+                          hintText: 'Email',
                           hintStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
@@ -95,83 +127,15 @@ class _AuthCaseState extends State<AuthCase> {
                         ),
                       ),
                     ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  //email
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: TextFormField(
-                      controller: widget.emailController,
-                      validator: ValidateService.validateEmail,
-                      decoration: const InputDecoration(
-                        fillColor: Color(0xffFFFFFF),
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xffC4C4C4),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        hintText: 'Email',
-                        hintStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  //
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: TextFormField(
-                      controller: widget.passwordController,
-                      validator: ValidateService.validatePassword,
-                      decoration: const InputDecoration(
-                        fillColor: Color(0xffFFFFFF),
-                        filled: true,
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xffC4C4C4),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        hintText: 'password',
-                        hintStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  if (!widget.isLogin)
-                    //password
+                    //
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: TextFormField(
-                        controller: widget.confirmPasswordController,
-                        validator: (value) {
-                          if (value != widget.passwordController.text) {
-                            return 'Password does not match';
-                          }
-                          return ValidateService.validatePassword(value);
-                        },
+                        controller: widget.passwordController,
+                        validator: ValidateService.validatePassword,
                         decoration: const InputDecoration(
                           fillColor: Color(0xffFFFFFF),
                           filled: true,
@@ -184,7 +148,7 @@ class _AuthCaseState extends State<AuthCase> {
                               Radius.circular(10),
                             ),
                           ),
-                          hintText: 'Confirm Password',
+                          hintText: 'password',
                           hintStyle: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
@@ -194,88 +158,130 @@ class _AuthCaseState extends State<AuthCase> {
                         ),
                       ),
                     ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  //button
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: InkWell(
-                      onTap: () async {
-                        if (widget.formkey.currentState!.validate()) {
-                          if (widget.isLogin) {
-                            //show loading
-                            loadingWidget(context);
-                            await value.login(
-                              widget.emailController.text,
-                              widget.passwordController.text,
-                            );
-                            if (mounted) {
-                              Navigator.pop(context);
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    if (!widget.isLogin)
+                      //password
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: TextFormField(
+                          controller: widget.confirmPasswordController,
+                          validator: (value) {
+                            if (value != widget.passwordController.text) {
+                              return 'Password does not match';
                             }
-                          } else {
-                            loadingWidget(context);
-                            await value.register(
-                              widget.nameController.text,
-                              widget.emailController.text,
-                              widget.passwordController.text,
-                              'https://i.pinimg.com/564x/5a/93/18/5a9318fa42b8eff23f9c466d55916792.jpg',
-                            );
-                            if (mounted) {
-                              Navigator.pop(context);
+                            return ValidateService.validatePassword(value);
+                          },
+                          decoration: const InputDecoration(
+                            fillColor: Color(0xffFFFFFF),
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0xffC4C4C4),
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                            hintText: 'Confirm Password',
+                            hintStyle: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    //button
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: InkWell(
+                        onTap: () async {
+                          if (widget.formkey.currentState!.validate()) {
+                            if (widget.isLogin) {
+                              //show loading
+                              loadingWidget(context);
+                              await value.login(
+                                widget.emailController.text,
+                                widget.passwordController.text,
+                              );
+                              if (mounted) {
+                                Navigator.pop(context);
+                              }
+                            } else {
+                              loadingWidget(context);
+                              await value.register(
+                                widget.nameController.text,
+                                widget.emailController.text,
+                                widget.passwordController.text,
+                                'https://i.pinimg.com/564x/5a/93/18/5a9318fa42b8eff23f9c466d55916792.jpg',
+                              );
+                              if (mounted) {
+                                Navigator.pop(context);
+                              }
                             }
-                          }
-                          if (value.error != null) {
-                            ScaffoldMessenger.of(context).showMaterialBanner(
-                              MaterialBanner(
-                                content: Text(value.error!),
-                                backgroundColor: Colors.red[300],
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      ScaffoldMessenger.of(context)
-                                          .hideCurrentMaterialBanner();
-                                    },
-                                    child: const Text(
-                                      'Close',
-                                      style: TextStyle(
-                                        color: Colors.white,
+                            if (value.error != null) {
+                              ScaffoldMessenger.of(context).showMaterialBanner(
+                                MaterialBanner(
+                                  content: Text(value.error!),
+                                  backgroundColor: Colors.red[300],
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        ScaffoldMessenger.of(context)
+                                            .hideCurrentMaterialBanner();
+                                      },
+                                      child: const Text(
+                                        'Close',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
+                              );
+                              value.clearError();
+                            }
+                            if (value.isLogin) {
+                              value.clearError();
+                              Navigator.of(context)
+                                  .pushReplacementNamed('/menu');
+                            }
+                          }
+                        },
+                        child: Container(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            color: const Color(0xff5F4BA3),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Submit',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.w700,
                               ),
-                            );
-                            value.clearError();
-                          }
-                          if (value.isLogin) {
-                            value.clearError();
-                            Navigator.of(context).pushReplacementNamed('/menu');
-                          }
-                        }
-                      },
-                      child: Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          color: const Color(0xff5F4BA3),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Submit',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: MediaQuery.of(context).viewInsets.bottom,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
