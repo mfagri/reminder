@@ -1,7 +1,7 @@
 # remindly
 
 
-## Getting Started
+
 
 Remindly is a Flutter-based reminder application designed to help users efficiently manage tasks and reminders for themselves or others. The app allows users to create, assign, and monitor tasks, ensuring that both individuals and groups stay organized and on schedule.
 
@@ -30,5 +30,5 @@ Whether you need to stay on top of personal tasks or delegate responsibilities t
 
 ## Demo Video
 
-![Remindly Demo](media/demo.mp4)
+![Remindly Demo](https://github.com/mfagri/reminder/blob/main/Simulator%20Screen%20Recording%20-%20iPhone%2015%20Pro%20-%202024-11-12%20at%2020.21.18.mp4)
 
