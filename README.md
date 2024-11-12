@@ -30,5 +30,5 @@ Whether you need to stay on top of personal tasks or delegate responsibilities t
 
 ## Demo Video
 
-![Remindly Demo](https://github.com/mfagri/reminder/blob/main/Simulator%20Screen%20Recording%20-%20iPhone%2015%20Pro%20-%202024-11-12%20at%2020.21.18.mp4)
+[![Watch the video](https://github.com/mfagri/reminder/blob/main/Simulator%20Screen%20Recording%20-%20iPhone%2015%20Pro%20-%202024-11-12%20at%2020.21.18.mp4)
 
