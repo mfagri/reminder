@@ -1,5 +1,4 @@
 SUPABASE_URL=xxxxx
 SUPABASE_ANON_KEY=xxxxx
 WEB_CLIENT_ID=xxxxx
-# API_URL=https://remindly-backend.vercel.app/api
 API_URL=xxxxxxxx
